@@ -1,8 +1,6 @@
 import React from "react";
 
-import "./App.css";
-
-function App() {
+function NewFileRoute() {
     return (
         <form
             action="http://localhost:3000/files"
@@ -15,4 +13,4 @@ function App() {
     );
 }
 
-export default App;
+export default NewFileRoute;
