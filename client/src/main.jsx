@@ -4,17 +4,32 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 
-import NewFileRoute from "./routes/NewFileRoute.jsx";
-import FilesRoute from "./routes/FilesRoute.jsx";
+import NewMaterialRoute from "./routes/NewMaterialRoute.jsx";
+import HomeRoute from "./routes/HomeRoute.jsx";
+import HomeDashboardRoute from "./routes/HomeDashboardRoute.jsx";
+import FolderContentRoute from "./routes/FolderContentRoute.jsx";
+import NewFolderRoute from "./routes/NewFolderRoute.jsx";
 
 const router = createBrowserRouter([
     {
-        path: "/files",
-        element: <FilesRoute />,
+        path: "/home",
+        element: <HomeRoute />,
     },
     {
-        path: "/files/new",
-        element: <NewFileRoute />,
+        path: "/home/u/:year",
+        element: <HomeDashboardRoute />,
+    },
+    {
+        path: "/home/u/:year/folders/new",
+        element: <NewFolderRoute />,
+    },
+    {
+        path: "/home/u/:year/folders/:id",
+        element: <FolderContentRoute />,
+    },
+    {
+        path: "/submissions/new",
+        element: <NewMaterialRoute />,
     },
 ]);
 

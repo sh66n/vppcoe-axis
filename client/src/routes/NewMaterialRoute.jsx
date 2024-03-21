@@ -1,6 +1,6 @@
 import React from "react";
 
-function NewFileRoute() {
+function NewMaterialRoute() {
     return (
         <form
             action="http://localhost:3000/files"
@@ -13,4 +13,4 @@ function NewFileRoute() {
     );
 }
 
-export default NewFileRoute;
+export default NewMaterialRoute;
