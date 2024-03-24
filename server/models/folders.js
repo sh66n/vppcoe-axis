@@ -9,7 +9,7 @@ const folderSchema = new mongoose.Schema({
             ref: "Folder",
         },
     ],
-    material: [
+    materials: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Material",

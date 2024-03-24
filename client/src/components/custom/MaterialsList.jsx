@@ -3,7 +3,7 @@ import Material from "./Material";
 
 function MaterialsList({ materials }) {
     return (
-        <div style={{ backgroundColor: "blue" }}>
+        <div>
             <h1>Materials List</h1>
 
             {materials &&

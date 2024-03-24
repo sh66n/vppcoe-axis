@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from "react";
 import FoldersList from "@/components/custom/FoldersList";
-import { Button } from "react-day-picker";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/api";
 
 function HomeDashboardRoute() {
+    const { year } = useParams();
     const [folders, setFolders] = useState();
     useEffect(() => {
         async function getData() {
-            const allFolders = await axios.get(`${BASE_URL}/folders`);
-            setFolders(allFolders.data);
+            const response = await axios.post(`${BASE_URL}/folders`, {
+                year,
+            });
+            setFolders(response.data.filteredFolders);
         }
         getData();
     }, []);
 
     return (
-        <div>
+        <>
             <FoldersList folders={folders} />
-        </div>
+        </>
     );
 }
 

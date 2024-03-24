@@ -10,23 +10,26 @@ mongoose
     });
 
 const Folder = require("./models/folders");
-const folder1 = new Folder({
-    name: "folder1",
-    folders: [],
-    material: [],
-});
 
-const folder2 = new Folder({
-    name: "folder2",
-    folders: [],
-    material: [],
-});
+const seedData = [
+    {
+        name: "SEM-I",
+        year: 1,
+    },
+    {
+        name: "SEM-II",
+        year: 1,
+    },
+    {
+        name: "SEM-I",
+        year: 2,
+    },
+    {
+        name: "SEM-II",
+        year: 2,
+    },
+];
 
-folder1.folders.push(folder2);
-folder1.save().then(() => {
-    console.log("saved 1");
+Folder.insertMany(seedData).then((data) => {
+    console.log(data);
 });
-folder2.save().then(() => {
-    console.log("saved 2");
-});
-console.log("done");

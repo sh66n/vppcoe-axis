@@ -58,9 +58,9 @@ function FolderContentRoute() {
             });
             const currentFolder = res.data;
             console.log(currentFolder);
-            if (currentFolder.material.length > 0) {
+            if (currentFolder.materials.length > 0) {
                 const seedMaterial = [];
-                currentFolder.material.forEach(async (material) => {
+                currentFolder.materials.forEach(async (material) => {
                     seedMaterial.push(material);
                 });
                 setMaterials(seedMaterial);

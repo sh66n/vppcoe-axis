@@ -35,16 +35,19 @@ app.use(bodyParser.json());
 const Folder = require("./models/folders");
 const Material = require("./models/materials");
 
-app.get("/api/folders", async (req, res) => {
-    const allFolders = await Folder.find({});
-    res.send(allFolders);
+app.post("/api/folders", async (req, res) => {
+    const { year } = req.body;
+    const filteredFolders = await Folder.find({ year });
+    res.json({
+        filteredFolders: filteredFolders,
+    });
 });
 
 app.post("/api/folder", async (req, res) => {
     const { id } = req.body;
     const requiredFolder = await Folder.findById(id)
         .populate("folders")
-        .populate("material");
+        .populate("materials");
     res.send(requiredFolder);
 });
 app.post("/api/folders", async (req, res) => {
@@ -67,7 +70,7 @@ app.post("/api/materials", upload.single("content"), async (req, res, next) => {
     });
     await newMaterial.save();
     const destinationFolder = await Folder.findById(destinationFolderId);
-    destinationFolder?.material.push(newMaterial);
+    destinationFolder?.materials.push(newMaterial);
     res.json({
         destinationFolder,
         newMaterial,
