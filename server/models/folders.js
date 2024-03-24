@@ -2,8 +2,14 @@ const mongoose = require("mongoose");
 
 const folderSchema = new mongoose.Schema({
     name: String,
-    folders: [{}],
+    folders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Folder",
+        },
+    ],
     material: [{}],
+    year: Number,
 });
 
 const Folder = mongoose.model("Folder", folderSchema);

@@ -46,6 +46,12 @@ app.post("/api/folders", async (req, res) => {
     });
 });
 
+app.post("/api/folder", async (req, res) => {
+    const { id } = req.body;
+    const requiredFolder = await Folder.findById(id).populate("folders");
+    res.send(requiredFolder);
+});
+
 app.post("/api/files", upload.single("avatar"), function (req, res, next) {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
