@@ -10,8 +10,15 @@ import {
 } from "@/components/ui/card";
 import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+
+const BASE_URL = "http://localhost:3000/api";
 
 function Folder({ folder }) {
+    const handleClick = async (id) => {
+        const res = await axios.delete(`${BASE_URL}/folders/${id}`);
+        console.log(res.data.deletedFolder);
+    };
     return (
         <>
             <Card style={{ backgroundColor: "pink" }}>
@@ -28,7 +35,14 @@ function Folder({ folder }) {
                 </CardHeader>
 
                 <Button variant="ghost">Edit</Button>
-                <Button variant="ghost">Delete</Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        handleClick(folder._id);
+                    }}
+                >
+                    Delete
+                </Button>
             </Card>
         </>
     );

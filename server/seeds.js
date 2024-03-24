@@ -13,23 +13,23 @@ const Folder = require("./models/folders");
 
 const seedData = [
     {
-        name: "SEM-I",
+        name: "EP-I",
         year: 1,
-    },
-    {
-        name: "SEM-II",
-        year: 1,
-    },
-    {
-        name: "SEM-I",
-        year: 2,
-    },
-    {
-        name: "SEM-II",
-        year: 2,
     },
 ];
 
-Folder.insertMany(seedData).then((data) => {
-    console.log(data);
-});
+const addNestedFolders = async () => {
+    const seedData = [];
+    const folderToPush = await Folder.findById("6600825ab5eac93efa6ce2e1");
+    const folderToBePushedUpon = await Folder.findById(
+        "6600748f5abd94e4c3982789"
+    );
+    folderToBePushedUpon?.folders.push(folderToPush);
+    await folderToBePushedUpon?.save();
+    console.log("done");
+};
+
+const createNestedFolders = async () => {
+    const folders = await Folder.insertMany(seedData);
+};
+addNestedFolders();

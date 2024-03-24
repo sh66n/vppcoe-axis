@@ -49,7 +49,7 @@ function FolderContentRoute() {
         // const getChildren = async () => {
         //     const childFolder = await axios.post(BASE_URL);
         // };
-    }, [nestedFolders]);
+    }, [setNestedFolders]);
 
     useEffect(() => {
         const getMaterial = async () => {
@@ -57,7 +57,6 @@ function FolderContentRoute() {
                 id,
             });
             const currentFolder = res.data;
-            console.log(currentFolder);
             if (currentFolder.materials.length > 0) {
                 const seedMaterial = [];
                 currentFolder.materials.forEach(async (material) => {

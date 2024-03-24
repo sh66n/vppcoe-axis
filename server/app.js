@@ -56,6 +56,14 @@ app.post("/api/folders", async (req, res) => {
         newFolder,
     });
 });
+app.delete("/api/folders/:id", async (req, res) => {
+    const { id } = req.params;
+    const deletedFolder = await Folder.findByIdAndDelete(id);
+    res.json({
+        status: "success",
+        deletedFolder,
+    });
+});
 
 app.post("/api/material", async (req, res) => {
     const { id } = req.body;
