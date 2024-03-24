@@ -14,7 +14,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: "Axis",
+        folder: "Timeline",
         allowedFormats: ["pdf"],
     },
 });

@@ -9,6 +9,7 @@ import HomeRoute from "./routes/HomeRoute.jsx";
 import HomeDashboardRoute from "./routes/HomeDashboardRoute.jsx";
 import FolderContentRoute from "./routes/FolderContentRoute.jsx";
 import NewFolderRoute from "./routes/NewFolderRoute.jsx";
+import MaterialContentRoute from "./routes/MaterialContentRoute.jsx";
 
 const router = createBrowserRouter([
     {
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
         element: <FolderContentRoute />,
     },
     {
-        path: "/submissions/new",
+        path: "/home/u/:year/materials/:id",
+        element: <MaterialContentRoute />,
+    },
+    {
+        path: "/home/u/:year/materials/new",
         element: <NewMaterialRoute />,
     },
 ]);

@@ -10,21 +10,21 @@ import {
 } from "@/components/ui/card";
 import { useLocation } from "react-router-dom";
 
-function Folder({ folder }) {
+function Material({ material }) {
     return (
-        <Card style={{ backgroundColor: "pink" }}>
+        <Card style={{ backgroundColor: "blue" }}>
             <CardHeader>
                 <CardTitle>
                     <a
-                        href={`http://localhost:5173/home/u/1/folders/${folder._id}`}
+                        href={`http://localhost:5173/home/u/1/materials/${material._id}`}
                     >
-                        {folder.name}
+                        {material.title}
                     </a>
                 </CardTitle>
-                <CardDescription>{folder._id}</CardDescription>
+                <CardDescription>{material._id}</CardDescription>
             </CardHeader>
         </Card>
     );
 }
 
-export default Folder;
+export default Material;

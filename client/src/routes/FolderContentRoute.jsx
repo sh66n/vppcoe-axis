@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import FoldersList from "@/components/custom/FoldersList";
+import MaterialsList from "@/components/custom/MaterialsList";
+import NewMaterialForm from "@/components/custom/NewMaterialForm";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -26,6 +28,7 @@ const BASE_URL = "http://localhost:3000";
 function FolderContentRoute() {
     const { year, id } = useParams();
     const [nestedFolders, setNestedFolders] = useState([]);
+    const [materials, setMaterials] = useState([]);
     useEffect(() => {
         const checkChildren = async () => {
             const res = await axios.post(`${BASE_URL}/api/folder`, {
@@ -39,7 +42,7 @@ function FolderContentRoute() {
                 });
                 setNestedFolders(seedNestedFolders);
             } else {
-                return false;
+                setNestedFolders(null);
             }
         };
         checkChildren();
@@ -47,13 +50,40 @@ function FolderContentRoute() {
         //     const childFolder = await axios.post(BASE_URL);
         // };
     }, [nestedFolders]);
+
+    useEffect(() => {
+        const getMaterial = async () => {
+            const res = await axios.post(`${BASE_URL}/api/folder`, {
+                id,
+            });
+            const currentFolder = res.data;
+            console.log(currentFolder);
+            if (currentFolder.material.length > 0) {
+                const seedMaterial = [];
+                currentFolder.material.forEach(async (material) => {
+                    seedMaterial.push(material);
+                });
+                setMaterials(seedMaterial);
+            }
+        };
+        getMaterial();
+    }, []);
     return (
         <div>
             {/* You are viewing {id} for {year}st year */}
-            {nestedFolders.length > 0 ? (
-                <FoldersList folders={nestedFolders} />
+            {nestedFolders && nestedFolders.length > 0 ? (
+                <>
+                    <FoldersList folders={nestedFolders} />
+                </>
             ) : (
-                <h1>No folders here! Create some?</h1>
+                <div>
+                    <h1>No folders here! Create some?</h1>
+                </div>
+            )}
+            {materials.length > 0 ? (
+                <MaterialsList materials={materials} />
+            ) : (
+                <h1>No materials here! Upload some?</h1>
             )}
             {/* <Dialog>
                 <ContextMenu>

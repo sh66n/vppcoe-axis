@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Material = require("./materials");
 
 const folderSchema = new mongoose.Schema({
     name: String,
@@ -8,7 +9,12 @@ const folderSchema = new mongoose.Schema({
             ref: "Folder",
         },
     ],
-    material: [{}],
+    material: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Material",
+        },
+    ],
     year: Number,
 });
 

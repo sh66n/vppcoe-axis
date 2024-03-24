@@ -1,15 +1,11 @@
 import React from "react";
+import NewMaterialForm from "@/components/custom/NewMaterialForm";
 
 function NewMaterialRoute() {
     return (
-        <form
-            action="http://localhost:3000/files"
-            method="POST"
-            encType="multipart/form-data"
-        >
-            <input type="file" name="avatar" />
-            <button>Submit</button>
-        </form>
+        <div>
+            <NewMaterialForm />
+        </div>
     );
 }
 
