@@ -36,8 +36,8 @@ const Folder = require("./models/folders");
 const Material = require("./models/materials");
 
 app.post("/api/folders", async (req, res) => {
-    const { year } = req.body;
-    const filteredFolders = await Folder.find({ year });
+    const { year, isNested } = req.body;
+    const filteredFolders = await Folder.find({ year, isNested });
     res.json({
         filteredFolders: filteredFolders,
     });

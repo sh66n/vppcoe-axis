@@ -16,6 +16,7 @@ const folderSchema = new mongoose.Schema({
         },
     ],
     year: Number,
+    isNested: Boolean,
 });
 
 const Folder = mongoose.model("Folder", folderSchema);

@@ -66,7 +66,8 @@ function FolderContentRoute() {
             }
         };
         getMaterial();
-    }, []);
+    }, [materials]);
+
     return (
         <div>
             {/* You are viewing {id} for {year}st year */}

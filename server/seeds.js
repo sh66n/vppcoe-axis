@@ -15,14 +15,34 @@ const seedData = [
     {
         name: "EP-I",
         year: 1,
+        isNested: true,
+    },
+    {
+        name: "EM-I",
+        year: 1,
+        isNested: true,
+    },
+    {
+        name: "EM",
+        year: 1,
+        isNested: true,
+    },
+    {
+        name: "EC-I",
+        year: 1,
+        isNested: true,
+    },
+    {
+        name: "BEE",
+        year: 1,
+        isNested: true,
     },
 ];
 
 const addNestedFolders = async () => {
-    const seedData = [];
-    const folderToPush = await Folder.findById("6600825ab5eac93efa6ce2e1");
+    const folderToPush = await Folder.findById("660311cb973172a228de5826");
     const folderToBePushedUpon = await Folder.findById(
-        "6600748f5abd94e4c3982789"
+        "660310e88232d772d55ceaf7"
     );
     folderToBePushedUpon?.folders.push(folderToPush);
     await folderToBePushedUpon?.save();
@@ -31,5 +51,9 @@ const addNestedFolders = async () => {
 
 const createNestedFolders = async () => {
     const folders = await Folder.insertMany(seedData);
+    console.log("done");
 };
 addNestedFolders();
+// Folder.deleteMany({}).then(() => {
+//     console.log("deleted");
+// });

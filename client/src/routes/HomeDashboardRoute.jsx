@@ -13,11 +13,12 @@ function HomeDashboardRoute() {
         async function getData() {
             const response = await axios.post(`${BASE_URL}/folders`, {
                 year,
+                isNested: false,
             });
             setFolders(response.data.filteredFolders);
         }
         getData();
-    }, []);
+    }, [folders]);
 
     return (
         <>
