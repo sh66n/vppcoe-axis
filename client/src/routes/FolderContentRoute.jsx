@@ -5,37 +5,29 @@ import FoldersList from "@/components/custom/FoldersList";
 import MaterialsList from "@/components/custom/MaterialsList";
 import NewFolderForm from "@/components/custom/NewFolderForm";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3000/api";
 
 function FolderContentRoute() {
-    const { year, id } = useParams();
-    const [nestedFolders, setNestedFolders] = useState([]);
+    const { id } = useParams();
+    const [children, setChildren] = useState([]);
+    const [hasChildren, setHasChildren] = useState(false);
     const [materials, setMaterials] = useState([]);
+
     useEffect(() => {
-        const checkChildren = async () => {
-            const res = await axios.post(`${BASE_URL}/api/folder`, {
-                id,
-            });
-            const currentFolder = res.data;
-            if (currentFolder.childFolders.length > 0) {
-                const seedNestedFolders = [];
-                currentFolder.childFolders.forEach(async (folder) => {
-                    seedNestedFolders.push(folder);
-                });
-                setNestedFolders(seedNestedFolders);
-            } else {
-                setNestedFolders(null);
+        const getChildren = async () => {
+            const res = await axios.get(`${BASE_URL}/folders/${id}`);
+            setHasChildren(res.data.hasChildren);
+            if (res.data.hasChildren) {
+                const { childFolders } = res.data;
+                setChildren(childFolders);
             }
         };
-        checkChildren();
-        // const getChildren = async () => {
-        //     const childFolder = await axios.post(BASE_URL);
-        // };
-    }, [nestedFolders]);
+        getChildren();
+    }, [children]);
 
     useEffect(() => {
         const getMaterial = async () => {
-            const res = await axios.post(`${BASE_URL}/api/folder`, {
+            const res = await axios.post(`${BASE_URL}/folder`, {
                 id,
             });
             const currentFolder = res.data;
@@ -50,19 +42,22 @@ function FolderContentRoute() {
         getMaterial();
     }, [materials]);
 
+    const updateChildren = (newFolder) => {
+        setChildren([...children, newFolder]);
+    };
+
     return (
         <>
             <div style={{ height: "100vh", width: "100vw" }}>
-                {/* You are viewing {id} for {year}st year */}
-                {nestedFolders && nestedFolders.length > 0 ? (
-                    <>
-                        <FoldersList folders={nestedFolders} />
-                        <NewFolderForm />
-                    </>
+                {hasChildren ? (
+                    <div>
+                        <FoldersList folders={children} />
+                        <NewFolderForm updateChildren={updateChildren} />
+                    </div>
                 ) : (
                     <div>
-                        <h1>No folders here! Create some?</h1>
-                        <NewFolderForm />
+                        <h1>No folders here! Add some?</h1>
+                        <NewFolderForm updateChildren={updateChildren} />
                     </div>
                 )}
                 {materials.length > 0 ? (

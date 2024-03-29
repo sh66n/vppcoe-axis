@@ -45,17 +45,38 @@ app.get("/api/folders", async (req, res) => {
 
 app.post("/api/folders", async (req, res) => {
     const newFolder = await Folder.create(req.body);
-    if (req.body.isNested == true) {
-        const parentFolderId = newFolder.parentFolder._id;
-        const parentFolder = await Folder.findById(parentFolderId);
-        parentFolder?.childFolders.push(newFolder);
-        parentFolder.save();
-        newFolder.save();
-    }
+    if (req.body.isNested === true) {
+        const { parentId } = req.body;
+        const parentFolder = await Folder.findById(parentId);
+        if (parentFolder) {
+            newFolder.parentFolder.push(parentFolder);
+            newFolder.save();
 
+            parentFolder.childFolders.push(newFolder);
+            parentFolder.save();
+        }
+    }
     res.status(200).json({
         newFolder,
     });
+});
+
+app.get("/api/folders/:id", async (req, res) => {
+    const { id } = req.params;
+    const currentFolder = await Folder.findById(id).populate("childFolders");
+    if (currentFolder) {
+        if (currentFolder.childFolders.length > 0) {
+            const childFolders = currentFolder.childFolders;
+            res.json({
+                childFolders,
+                hasChildren: true,
+            });
+        } else {
+            res.json({
+                hasChildren: false,
+            });
+        }
+    }
 });
 
 app.post("/api/folder", async (req, res) => {

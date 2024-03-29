@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 
 const BASE_URL = "http://localhost:3000/api";
 
-function NewFolderForm() {
+function NewFolderForm({ updateChildren }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const { year } = useParams();
     const { id } = useParams();
@@ -31,19 +31,17 @@ function NewFolderForm() {
     const onSubmit = async (data) => {
         reset();
         setDialogOpen(false);
+
         data.year = year;
         if (id) {
             data.isNested = true;
-            const parentFolder = await axios.post(`${BASE_URL}/folder`, {
-                id,
-            });
-            data.parentFolder = parentFolder.data;
+            data.parentId = id;
         } else {
             data.isNested = false;
         }
 
         const res = await axios.post(`${BASE_URL}/folders`, data);
-        console.log(res);
+        updateChildren(res.data);
     };
 
     const openDialog = () => {
