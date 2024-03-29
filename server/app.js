@@ -35,27 +35,47 @@ app.use(bodyParser.json());
 const Folder = require("./models/folders");
 const Material = require("./models/materials");
 
-app.post("/api/folders", async (req, res) => {
-    const { year, isNested } = req.body;
+app.get("/api/folders", async (req, res) => {
+    const { year, isNested } = req.query;
     const filteredFolders = await Folder.find({ year, isNested });
     res.json({
         filteredFolders: filteredFolders,
     });
 });
 
-app.post("/api/folder", async (req, res) => {
-    const { id } = req.body;
-    const requiredFolder = await Folder.findById(id)
-        .populate("folders")
-        .populate("materials");
-    res.send(requiredFolder);
-});
 app.post("/api/folders", async (req, res) => {
     const newFolder = await Folder.create(req.body);
+    if (req.body.isNested == true) {
+        const parentFolderId = newFolder.parentFolder._id;
+        const parentFolder = await Folder.findById(parentFolderId);
+        parentFolder?.childFolders.push(newFolder);
+        parentFolder.save();
+        newFolder.save();
+    }
+
     res.status(200).json({
         newFolder,
     });
 });
+
+app.post("/api/folder", async (req, res) => {
+    const { id } = req.body;
+    const requiredFolder = await Folder.findById(id)
+        .populate("childFolders")
+        .populate("materials");
+    res.send(requiredFolder);
+});
+
+app.patch("/api/folders/:id", async (req, res) => {
+    const { id } = req.params;
+    const updatedFolder = await Folder.findByIdAndUpdate(id, req.body, {
+        new: true,
+    });
+    res.json({
+        updatedFolder,
+    });
+});
+
 app.delete("/api/folders/:id", async (req, res) => {
     const { id } = req.params;
     const deletedFolder = await Folder.findByIdAndDelete(id);

@@ -10,6 +10,7 @@ mongoose
     });
 
 const Folder = require("./models/folders");
+const Material = require("./models/materials");
 
 const seedData = [
     {
@@ -39,21 +40,24 @@ const seedData = [
     },
 ];
 
-const addNestedFolders = async () => {
-    const folderToPush = await Folder.findById("660311cb973172a228de5826");
-    const folderToBePushedUpon = await Folder.findById(
-        "660310e88232d772d55ceaf7"
-    );
-    folderToBePushedUpon?.folders.push(folderToPush);
-    await folderToBePushedUpon?.save();
-    console.log("done");
-};
+// const addNestedFolders = async () => {
+//     const folderToPush = await Folder.findById("660311cb973172a228de5826");
+//     const folderToBePushedUpon = await Folder.findById(
+//         "660310e88232d772d55ceaf7"
+//     );
+//     folderToBePushedUpon?.folders.push(folderToPush);
+//     await folderToBePushedUpon?.save();
+//     console.log("done");
+// };
 
-const createNestedFolders = async () => {
-    const folders = await Folder.insertMany(seedData);
-    console.log("done");
-};
-addNestedFolders();
-// Folder.deleteMany({}).then(() => {
-//     console.log("deleted");
-// });
+// const createNestedFolders = async () => {
+//     const folders = await Folder.insertMany(seedData);
+//     console.log("done");
+// };
+// addNestedFolders();
+Folder.deleteMany({}).then(() => {
+    console.log("deleted");
+});
+Material.deleteMany({}).then(() => {
+    console.log("deleted");
+});

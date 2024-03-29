@@ -3,7 +3,7 @@ const Material = require("./materials");
 
 const folderSchema = new mongoose.Schema({
     name: String,
-    folders: [
+    childFolders: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Folder",
@@ -17,6 +17,7 @@ const folderSchema = new mongoose.Schema({
     ],
     year: Number,
     isNested: Boolean,
+    parentFolder: Object,
 });
 
 const Folder = mongoose.model("Folder", folderSchema);
